@@ -1,98 +1,61 @@
-# 🏥 Healthcare AI Assistant Using RAG and LLMs
+#  Healthcare AI Assistant Using RAG and LLMs
 
-A healthcare-focused AI assistant built using **Retrieval-Augmented Generation (RAG)** that answers user questions from a healthcare knowledge base instead of relying only on the language model.
+## Overview
 
-The project was developed as part of the **AI Engineer Hackathon Assignment**. The objective was to build a working prototype that demonstrates practical knowledge of RAG pipelines, LLM integration, vector databases, API development, and a simple agent-based workflow.
+This project is a healthcare-focused AI assistant built as part of the **AI Engineer Hackathon Assignment**.
+
+The goal of this project is to answer healthcare-related questions using a **Retrieval-Augmented Generation (RAG)** pipeline instead of relying only on the language model. The assistant retrieves relevant information from a healthcare knowledge base, generates a grounded response, and provides the document(s) used to answer the question.
+
+To demonstrate a simple agentic workflow, appointment-related queries are routed to a mock appointment scheduling tool, while all document-related questions are handled using the RAG pipeline.
+
+The project uses a **local Mistral model through Ollama**, allowing it to run completely offline without depending on external LLM APIs.
 
 ---
 
-## Features
+# Features
 
-* Answer healthcare-related questions using a RAG pipeline
-* Uses **ChromaDB** as the vector database
-* Generates embeddings using **sentence-transformers/all-MiniLM-L6-v2**
-* Runs completely offline using **Ollama + Mistral**
-* Returns source citations for every answer
-* Handles appointment-related queries using a separate routing tool
-* REST API built with FastAPI
-* Simple Streamlit interface
+* Retrieval-Augmented Generation (RAG)
+* Healthcare knowledge base using synthetic documents
+* Local LLM with Ollama (Mistral)
+* ChromaDB for vector storage
+* HuggingFace embeddings
+* Source citations with every answer
+* Mock appointment booking tool
+* FastAPI REST API
+* Streamlit web interface
 * Docker support
 * Logging and environment-based configuration
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-| Technology             | Purpose              |
-| ---------------------- | -------------------- |
-| Python                 | Programming Language |
-| FastAPI                | Backend API          |
-| Streamlit              | Frontend             |
-| LangChain              | RAG Pipeline         |
-| ChromaDB               | Vector Database      |
-| Ollama (Mistral)       | Local LLM            |
-| HuggingFace Embeddings | Text Embeddings      |
-| Docker                 | Containerization     |
+| Component       | Technology                             |
+| --------------- | -------------------------------------- |
+| Backend         | FastAPI                                |
+| Frontend        | Streamlit                              |
+| LLM             | Ollama + Mistral                       |
+| Embeddings      | sentence-transformers/all-MiniLM-L6-v2 |
+| Vector Database | ChromaDB                               |
+| Framework       | LangChain                              |
+| Language        | Python                                 |
+| Deployment      | Docker                                 |
 
 ---
 
-# How it Works
+# Project Workflow
+
+The application follows a simple RAG pipeline.
 
 1. Healthcare documents are loaded from the **data** folder.
 2. Documents are split into smaller chunks.
-3. Each chunk is converted into embeddings.
-4. Embeddings are stored in **ChromaDB**.
+3. Each chunk is converted into vector embeddings.
+4. Embeddings are stored in ChromaDB.
 5. When a user asks a question, relevant chunks are retrieved.
-6. The retrieved context is sent to the local Mistral model.
-7. The assistant generates an answer using only the retrieved information and also returns the source documents.
+6. The retrieved context is passed to the local Mistral model.
+7. The assistant generates a grounded answer and returns the supporting document references.
 
----
-
-## Agent Workflow
-
-The application supports two different workflows.
-
-### 1. RAG Workflow
-
-Used for healthcare-related questions.
-
-Example:
-
-> Can a patient request a medication refill through telehealth?
-
-↓
-
-Retrieve relevant document chunks
-
-↓
-
-Generate grounded answer using Mistral
-
-↓
-
-Return answer with citations
-
----
-
-### 2. Appointment Tool
-
-If the question is related to appointment booking, it is routed to a simple mock scheduling tool.
-
-Example:
-
-> Can I book a cardiology appointment for Monday?
-
-↓
-
-Appointment Router
-
-↓
-
-Mock Appointment Tool
-
-↓
-
-Available Time Slots
+For appointment-related questions, the request is routed directly to a mock appointment scheduling tool instead of the RAG pipeline.
 
 ---
 
@@ -106,71 +69,71 @@ healthcare-ai-assistant/
 │   ├── rag.py
 │   ├── llm.py
 │   ├── embeddings.py
-│   ├── config.py
-│   ├── prompt.py
 │   ├── agent.py
 │   ├── tools.py
+│   ├── config.py
+│   ├── prompt.py
 │   └── logger.py
 │
 ├── data/
-│
-├── vector_store/
-│
+├── tests/
 ├── logs/
+├── vector_store/
 │
 ├── streamlit_app.py
 ├── requirements.txt
 ├── Dockerfile
 ├── docker-compose.yml
-└── README.md
+├── README.md
+└── .env.example
 ```
 
 ---
 
-# Healthcare Dataset
+# Dataset
 
-The project uses a small synthetic healthcare knowledge base containing:
+The knowledge base consists of six synthetic healthcare documents covering:
 
 * Telehealth Consultation Guidelines
 * Medication Refill Policy
 * HIPAA Privacy Guidelines
-* Insurance Eligibility FAQ
 * Appointment Scheduling Policy
+* Insurance Eligibility FAQ
 * Patient Discharge Instructions
 
-No real patient information or PHI has been used.
+No real patient information or PHI has been used in this project.
 
 ---
 
 # API Endpoints
 
-## Health Check
+### Health Check
 
 ```http
 GET /health
 ```
 
-Checks whether the API is running.
+Returns the application status.
 
 ---
 
-## Ingest Documents
+### Document Ingestion
 
 ```http
 POST /ingest
 ```
 
-Loads healthcare documents, creates embeddings, and stores them in ChromaDB.
+Reads healthcare documents, creates embeddings, and stores them in ChromaDB.
 
 ---
 
-## Ask Question
+### Ask a Question
 
 ```http
 POST /ask
 ```
 
-Example Request
+Example request
 
 ```json
 {
@@ -178,17 +141,18 @@ Example Request
 }
 ```
 
-Example Response
+Example response
 
 ```json
 {
-    "answer":"Yes...",
+    "answer":"Yes, patients can request medication refills through telehealth if the medication was previously prescribed.",
+    "confidence":"high",
+    "workflow":"rag",
     "sources":[
         {
             "document":"telehealth_policy.txt"
         }
-    ],
-    "confidence":"high"
+    ]
 }
 ```
 
@@ -196,18 +160,17 @@ Example Response
 
 # Sample Questions
 
-### RAG
+### RAG Questions
 
 * Can a patient request a medication refill through telehealth?
-* What information is considered PHI?
-* How can a patient verify insurance eligibility?
-* What should a patient do after discharge?
-* When should a patient seek emergency care?
+* What information is considered protected health information?
+* When should a patient seek emergency medical care?
+* What documents are required for insurance eligibility?
 
-### Appointment Tool
+### Agent Tool Questions
 
 * Can I book a cardiology appointment for Monday?
-* Show dermatology appointment slots.
+* Show available dermatology slots.
 * Schedule a pediatrics appointment.
 
 ---
@@ -218,7 +181,6 @@ Clone the repository
 
 ```bash
 git clone <repository-url>
-cd healthcare-ai-assistant
 ```
 
 Create a virtual environment
@@ -228,8 +190,6 @@ python -m venv venv
 ```
 
 Activate it
-
-Windows
 
 ```bash
 venv\Scripts\activate
@@ -247,19 +207,19 @@ Start Ollama
 ollama run mistral
 ```
 
-Run FastAPI
+Run the backend
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Swagger UI
+Open Swagger
 
 ```
 http://127.0.0.1:8000/docs
 ```
 
-Run Streamlit
+Run the Streamlit application
 
 ```bash
 streamlit run streamlit_app.py
@@ -269,7 +229,7 @@ streamlit run streamlit_app.py
 
 # Docker
 
-Build
+Build the application
 
 ```bash
 docker compose build
@@ -283,18 +243,15 @@ docker compose up
 
 ---
 
-# Future Improvements
+# Why I Chose This Tech Stack
 
-Some features I would like to add in future versions:
+* **FastAPI** provides a clean and high-performance API framework.
+* **ChromaDB** is lightweight and well suited for small-to-medium RAG applications.
+* **all-MiniLM-L6-v2** offers fast embedding generation with good semantic search performance.
+* **Ollama + Mistral** allows the project to run locally without API costs or internet dependency.
+* **LangChain** simplifies document loading, chunking, retrieval, and LLM integration.
 
-* PDF and DOCX document support
-* User authentication
-* Conversation memory
-* Hybrid Search (BM25 + Vector Search)
-* Real hospital appointment API
-* Cloud deployment
-* Multi-language support
-* Better evaluation metrics
+
 
 ---
 
@@ -302,4 +259,3 @@ Some features I would like to add in future versions:
 
 **Akash Jadhav**
 
-This project was developed as part of the AI Engineer Hackathon Assignment to demonstrate practical implementation of Retrieval-Augmented Generation, local LLM integration, vector search, and agent-based workflows in a healthcare use case.
