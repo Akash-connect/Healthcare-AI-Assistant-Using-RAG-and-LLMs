@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  healthcare-ai-api:
+    build: .
+    container_name: healthcare-ai-assistant
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./vector_store:/app/vector_store
+      - ./logs:/app/logs

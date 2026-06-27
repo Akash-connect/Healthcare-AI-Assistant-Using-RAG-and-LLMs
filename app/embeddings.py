@@ -1,0 +1,12 @@
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from app.config import settings
+
+
+def get_embedding_model():
+    """
+    Load the embedding model.
+    """
+
+    return HuggingFaceEmbeddings(
+        model_name=settings.EMBEDDING_MODEL
+    )

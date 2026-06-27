@@ -1,0 +1,15 @@
+Appointment Scheduling Policy
+
+Patients can book appointments through the patient portal, phone call, front desk, or approved telehealth system.
+
+Available departments include cardiology, dermatology, general medicine, pediatrics, orthopedics, and neurology.
+
+Appointments are subject to doctor availability and department schedule.
+
+Patients should arrive 15 minutes before an in-person appointment for registration and verification.
+
+For telehealth appointments, patients should join the video consultation 5 minutes before the scheduled time.
+
+Appointment cancellation or rescheduling should be done at least 24 hours in advance.
+
+Emergency cases should not wait for regular appointments and should contact emergency services immediately.

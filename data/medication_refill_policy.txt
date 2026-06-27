@@ -1,0 +1,15 @@
+Medication Refill Policy
+
+Patients can request medication refills through the patient portal, phone call, or telehealth consultation.
+
+Refill requests are allowed only for medicines already prescribed by the healthcare provider.
+
+The refill request should include patient name, medication name, dosage, pharmacy details, and last prescription date.
+
+Refills may take 24 to 48 business hours for review and approval.
+
+Some medicines may require laboratory reports, follow-up consultation, or in-person examination before refill approval.
+
+Controlled substances and high-risk medicines cannot be refilled automatically.
+
+The assistant must not recommend new medicines or change dosage. Patients should consult a licensed healthcare provider for medication changes.

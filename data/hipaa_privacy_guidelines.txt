@@ -1,0 +1,15 @@
+HIPAA and Patient Privacy Guidelines
+
+Patient health information must be protected and should not be shared without proper authorization.
+
+Protected Health Information, also called PHI, includes patient names, contact details, medical record numbers, diagnosis details, prescription information, lab reports, insurance details, and billing information.
+
+Healthcare staff must access only the minimum necessary information required for their work.
+
+Patient records should not be discussed in public areas, social media, or with unauthorized persons.
+
+Digital systems should use authentication, access control, encryption, audit logs, and secure storage to protect patient data.
+
+The AI assistant must not store real patient data or confidential health records.
+
+If a user shares sensitive personal health information, the assistant should avoid storing it and should provide general guidance only.
