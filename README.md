@@ -1,14 +1,40 @@
-#  Healthcare AI Assistant Using RAG and LLMs
+# 🏥 Healthcare AI Assistant Using RAG and LLMs
 
 ## Overview
 
-This project is a healthcare-focused AI assistant built as part of the **AI Engineer Hackathon Assignment**.
+This project is a healthcare-focused AI assistant developed as part of an **AI Engineer Hackathon Assignment**.
 
-The goal of this project is to answer healthcare-related questions using a **Retrieval-Augmented Generation (RAG)** pipeline instead of relying only on the language model. The assistant retrieves relevant information from a healthcare knowledge base, generates a grounded response, and provides the document(s) used to answer the question.
+The application uses a **Retrieval-Augmented Generation (RAG)** pipeline to answer healthcare-related questions using a healthcare knowledge base. Instead of relying only on the language model, it retrieves relevant information from indexed documents and generates responses based on the retrieved context.
 
-To demonstrate a simple agentic workflow, appointment-related queries are routed to a mock appointment scheduling tool, while all document-related questions are handled using the RAG pipeline.
+To demonstrate a simple agentic workflow, appointment-related queries are routed to a mock appointment scheduling tool, while document-related questions are answered using the RAG pipeline.
 
-The project uses a **local Mistral model through Ollama**, allowing it to run completely offline without depending on external LLM APIs.
+The project runs locally using **Ollama with the Mistral model**, allowing it to work completely offline without depending on external LLM APIs.
+
+---
+
+# Screenshots
+
+## Home Page
+
+![Home Page](screenshots/home.png)
+
+---
+
+## RAG Response
+
+![RAG Response](screenshots/rag_answer.png)
+
+---
+
+## Appointment Tool
+
+![Appointment Tool](screenshots/appointment_tool.png)
+
+---
+
+## Swagger API
+
+![Swagger API](screenshots/swagger.png)
 
 ---
 
@@ -18,13 +44,13 @@ The project uses a **local Mistral model through Ollama**, allowing it to run co
 * Healthcare knowledge base using synthetic documents
 * Local LLM with Ollama (Mistral)
 * ChromaDB for vector storage
-* HuggingFace embeddings
-* Source citations with every answer
-* Mock appointment booking tool
+* HuggingFace sentence embeddings
+* Source citations with every response
+* Mock appointment scheduling tool
 * FastAPI REST API
 * Streamlit web interface
 * Docker support
-* Logging and environment-based configuration
+* Environment-based configuration
 
 ---
 
@@ -45,17 +71,17 @@ The project uses a **local Mistral model through Ollama**, allowing it to run co
 
 # Project Workflow
 
-The application follows a simple RAG pipeline.
+The application follows a simple Retrieval-Augmented Generation (RAG) workflow.
 
 1. Healthcare documents are loaded from the **data** folder.
 2. Documents are split into smaller chunks.
 3. Each chunk is converted into vector embeddings.
 4. Embeddings are stored in ChromaDB.
-5. When a user asks a question, relevant chunks are retrieved.
+5. When a user asks a question, the most relevant document chunks are retrieved.
 6. The retrieved context is passed to the local Mistral model.
-7. The assistant generates a grounded answer and returns the supporting document references.
+7. The assistant generates a grounded response and returns the supporting source documents.
 
-For appointment-related questions, the request is routed directly to a mock appointment scheduling tool instead of the RAG pipeline.
+For appointment-related questions, the request is routed directly to the mock appointment scheduling tool.
 
 ---
 
@@ -76,6 +102,7 @@ healthcare-ai-assistant/
 │   └── logger.py
 │
 ├── data/
+├── screenshots/
 ├── tests/
 ├── logs/
 ├── vector_store/
@@ -92,7 +119,7 @@ healthcare-ai-assistant/
 
 # Dataset
 
-The knowledge base consists of six synthetic healthcare documents covering:
+The knowledge base contains six synthetic healthcare documents covering:
 
 * Telehealth Consultation Guidelines
 * Medication Refill Policy
@@ -101,56 +128,56 @@ The knowledge base consists of six synthetic healthcare documents covering:
 * Insurance Eligibility FAQ
 * Patient Discharge Instructions
 
-No real patient information or PHI has been used in this project.
+This project uses only sample healthcare documents. No real patient information or protected health information (PHI) is included.
 
 ---
 
 # API Endpoints
 
-### Health Check
+## Health Check
 
 ```http
 GET /health
 ```
 
-Returns the application status.
+Returns the current status of the application.
 
 ---
 
-### Document Ingestion
+## Document Ingestion
 
 ```http
 POST /ingest
 ```
 
-Reads healthcare documents, creates embeddings, and stores them in ChromaDB.
+Loads healthcare documents, generates embeddings, and stores them in ChromaDB.
 
 ---
 
-### Ask a Question
+## Ask a Question
 
 ```http
 POST /ask
 ```
 
-Example request
+### Example Request
 
 ```json
 {
-    "question":"Can a patient request a medication refill through telehealth?"
+    "question": "Can a patient request a medication refill through telehealth?"
 }
 ```
 
-Example response
+### Example Response
 
 ```json
 {
-    "answer":"Yes, patients can request medication refills through telehealth if the medication was previously prescribed.",
-    "confidence":"high",
-    "workflow":"rag",
-    "sources":[
+    "answer": "Yes, patients can request medication refills through telehealth if the medication was previously prescribed.",
+    "confidence": "high",
+    "workflow": "rag",
+    "sources": [
         {
-            "document":"telehealth_policy.txt"
+            "document": "telehealth_policy.txt"
         }
     ]
 }
@@ -160,14 +187,14 @@ Example response
 
 # Sample Questions
 
-### RAG Questions
+## RAG Questions
 
 * Can a patient request a medication refill through telehealth?
 * What information is considered protected health information?
 * When should a patient seek emergency medical care?
 * What documents are required for insurance eligibility?
 
-### Agent Tool Questions
+## Appointment Tool Questions
 
 * Can I book a cardiology appointment for Monday?
 * Show available dermatology slots.
@@ -177,49 +204,57 @@ Example response
 
 # Running the Project
 
-Clone the repository
+## Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Akash-connect/Healthcare-AI-Assistant-Using-RAG-and-LLMs.git
 ```
 
-Create a virtual environment
+## Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-Activate it
+## Activate the Environment
+
+### Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-Install dependencies
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Start Ollama
+## Start Ollama
 
 ```bash
 ollama run mistral
 ```
 
-Run the backend
+## Run FastAPI
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Open Swagger
+## Open Swagger
 
-```
+```text
 http://127.0.0.1:8000/docs
 ```
 
-Run the Streamlit application
+## Run Streamlit
 
 ```bash
 streamlit run streamlit_app.py
@@ -227,8 +262,30 @@ streamlit run streamlit_app.py
 
 ---
 
+# Docker
 
+## Build the Docker Image
 
+```bash
+docker compose build
+```
+
+## Run the Application
+
+```bash
+docker compose up
+```
+
+---
+
+# Future Improvements
+
+* Support PDF document ingestion
+* Add conversation memory
+* Integrate a real appointment scheduling API
+* Add user authentication
+* Deploy to cloud platforms
+* Support multiple languages
 
 ---
 
@@ -236,3 +293,6 @@ streamlit run streamlit_app.py
 
 **Akash Jadhav**
 
+AI Engineer | Artificial Intelligence & Data Science
+
+This project demonstrates a practical implementation of Retrieval-Augmented Generation (RAG), local LLM inference using Ollama, vector search with ChromaDB, and a simple agent-based workflow for healthcare question answering.
