@@ -1,4 +1,4 @@
-# 🏥 Healthcare AI Assistant Using RAG and LLMs
+# Healthcare AI Assistant Using RAG and LLMs
 
 ## Overview
 
@@ -260,32 +260,6 @@ http://127.0.0.1:8000/docs
 streamlit run streamlit_app.py
 ```
 
----
-
-# Docker
-
-## Build the Docker Image
-
-```bash
-docker compose build
-```
-
-## Run the Application
-
-```bash
-docker compose up
-```
-
----
-
-# Future Improvements
-
-* Support PDF document ingestion
-* Add conversation memory
-* Integrate a real appointment scheduling API
-* Add user authentication
-* Deploy to cloud platforms
-* Support multiple languages
 
 ---
 
