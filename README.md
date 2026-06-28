@@ -227,29 +227,6 @@ streamlit run streamlit_app.py
 
 ---
 
-# Docker
-
-Build the application
-
-```bash
-docker compose build
-```
-
-Run
-
-```bash
-docker compose up
-```
-
----
-
-# Why I Chose This Tech Stack
-
-* **FastAPI** provides a clean and high-performance API framework.
-* **ChromaDB** is lightweight and well suited for small-to-medium RAG applications.
-* **all-MiniLM-L6-v2** offers fast embedding generation with good semantic search performance.
-* **Ollama + Mistral** allows the project to run locally without API costs or internet dependency.
-* **LangChain** simplifies document loading, chunking, retrieval, and LLM integration.
 
 
 
