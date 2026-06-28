@@ -1,7 +1,11 @@
+.git
+.git/
+venv
 venv/
-__pycache__/
+vector_store
+vector_store/
+logs
+logs/
+__pycache__
 *.pyc
 .env
-logs/
-vector_store/
-.streamlit/
