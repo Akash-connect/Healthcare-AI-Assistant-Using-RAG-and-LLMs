@@ -267,6 +267,6 @@ streamlit run streamlit_app.py
 
 **Akash Jadhav**
 
-AI Engineer | Artificial Intelligence & Data Science
 
-This project demonstrates a practical implementation of Retrieval-Augmented Generation (RAG), local LLM inference using Ollama, vector search with ChromaDB, and a simple agent-based workflow for healthcare question answering.
+
+
